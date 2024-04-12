@@ -26,4 +26,8 @@ public class Cab
     String company;
     int numberOfSeats;
     double farePerKm;
+
+    @OneToOne
+    @JoinColumn //create a foreign key of driver
+    Driver driver;
 }

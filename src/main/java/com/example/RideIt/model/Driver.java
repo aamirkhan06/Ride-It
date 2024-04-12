@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -26,4 +29,12 @@ public class Driver
 
     String panNumber;
     double rating;
+
+    //mappedBy will tell  hibernate that it already a foreign key of 'driver' in cab table
+    //  cascade is defined as if we do some operation on parent then it should also reflect in child
+    @OneToOne(mappedBy = "driver",cascade = CascadeType.ALL)
+    Cab cab;
+
+    @OneToMany(mappedBy = "driver",cascade = CascadeType.ALL)
+    List<TripBooking> bookings=new ArrayList<>();
 }

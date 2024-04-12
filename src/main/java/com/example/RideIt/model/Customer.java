@@ -5,6 +5,9 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -29,4 +32,7 @@ public class Customer
 
     @Enumerated(EnumType.STRING)
     Gender gender;
+
+    @OneToMany(mappedBy = "customer",cascade = CascadeType.ALL)
+    List<TripBooking> bookings=new ArrayList<>();
 }

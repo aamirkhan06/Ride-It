@@ -7,6 +7,7 @@ import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.util.Date;
+import java.util.UUID;
 
 @Entity
 @NoArgsConstructor
@@ -19,7 +20,7 @@ public class TripBooking
 {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    int id;
+    String id;
 
     String source;
     String destination;
@@ -31,4 +32,12 @@ public class TripBooking
 
     @CreationTimestamp
     Date bookAt;
+
+    @ManyToOne
+    @JoinColumn
+    Customer customer;
+
+    @ManyToOne
+    @JoinColumn
+    Driver driver;
 }
