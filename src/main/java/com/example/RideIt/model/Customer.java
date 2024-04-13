@@ -16,6 +16,7 @@ import java.util.List;
 @ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name="customer") // to name the database of your class for good practise
+@Builder
 public class Customer
 {
     @Id

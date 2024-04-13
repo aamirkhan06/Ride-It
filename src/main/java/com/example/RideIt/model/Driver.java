@@ -15,6 +15,7 @@ import java.util.List;
 @ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name="driver")
+@Builder
 public class Driver
 {
     @Id

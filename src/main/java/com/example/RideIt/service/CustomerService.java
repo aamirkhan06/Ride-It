@@ -1,32 +1,30 @@
 package com.example.RideIt.service;
 
 import com.example.RideIt.dto.request.CustomerRequest;
+import com.example.RideIt.dto.response.CustomerResponse;
 import com.example.RideIt.model.Customer;
 import com.example.RideIt.repository.CustomerRepository;
+import com.example.RideIt.transformer.CustomerTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class CustomerService
 {
-    @Autowired
-    CustomerRepository customerRepository;
+    private final CustomerRepository customerRepository;
 
-    public String addCustomer(CustomerRequest customerRequest)
-    {
-        Customer customer= changeToCustomerEntity(customerRequest);
-        customerRepository.save(customer);
-        return "customer added successfully";
+    public CustomerService(CustomerRepository customerRepository) {
+        this.customerRepository = customerRepository;
     }
 
-    private Customer changeToCustomerEntity(CustomerRequest customerRequest)
+    public CustomerResponse addCustomer(CustomerRequest customerRequest)
     {
-        Customer customer=new Customer();
-        customer.setName(customerRequest.getName());
-        customer.setAge(customerRequest.getAge());
-        customer.setGender(customerRequest.getGender());
-        customer.setEmail(customerRequest.getEmail());
-        customer.setAddress(customerRequest.getAddress());
-        return customer;
+        //using builder to create objects(request dto->entity)
+        Customer customer= CustomerTransformer.customerRequestToCustomer(customerRequest);
+
+        Customer savedCustomer=customerRepository.save(customer);
+
+        //using builder to create objects(entity->request dto)
+        return CustomerTransformer.customertoCustomerResponse(savedCustomer);
     }
 }

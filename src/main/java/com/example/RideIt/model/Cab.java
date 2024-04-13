@@ -1,6 +1,7 @@
 package com.example.RideIt.model;
 
 import com.example.RideIt.Enum.CarType;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -13,6 +14,7 @@ import lombok.experimental.FieldDefaults;
 @ToString
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name="cab")
+@Builder
 public class Cab
 {
     @Id
@@ -21,6 +23,9 @@ public class Cab
 
     @Enumerated(EnumType.STRING)
     CarType carType;
+
+    @Column(unique = true, nullable = false)
+    String cabNumber;
 
     String carModel;
     String company;

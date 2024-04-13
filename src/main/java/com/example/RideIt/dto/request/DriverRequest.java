@@ -1,6 +1,5 @@
-package com.example.RideIt.dto.response;
+package com.example.RideIt.dto.request;
 
-import com.example.RideIt.Enum.Gender;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -9,9 +8,11 @@ import lombok.experimental.FieldDefaults;
 @Getter
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Builder
-public class CustomerResponse
+public class DriverRequest
 {
     String name;
-    String email;
+    int age;
+    String panNumber;
+    String mobileNumber;
+    CabRequest cab;
 }
