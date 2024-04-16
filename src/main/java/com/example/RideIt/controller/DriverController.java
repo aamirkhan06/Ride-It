@@ -26,4 +26,6 @@ public class DriverController
         String response= driverService.addDriver(driver);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
+
+    //delete a driver by mob no, (don't manually get the cab)
 }
