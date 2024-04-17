@@ -27,6 +27,7 @@ public class Cab
     @Column(unique = true, nullable = false)
     String cabNumber;
 
+    boolean available; //additional parameter
     String carModel;
     String company;
     int numberOfSeats;

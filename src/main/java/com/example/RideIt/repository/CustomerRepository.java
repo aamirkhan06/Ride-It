@@ -22,4 +22,6 @@ public interface CustomerRepository extends JpaRepository<Customer,Integer>
     //HQL query: according in terms of java entities
     @Query(value = "select c from Customer c where c.gender =:gender and c.age>=:age")
     List<Customer> getCustomerByGenderAndAge(Gender gender, int age);
+
+    Customer findByEmail(String email);
 }
