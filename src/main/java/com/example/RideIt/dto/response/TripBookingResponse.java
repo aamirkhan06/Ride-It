@@ -26,4 +26,5 @@ public class TripBookingResponse
     Date bookAt;
     CustomerResponse customerResponse;
     DriverResponse driverResponse;
+    String message;
 }

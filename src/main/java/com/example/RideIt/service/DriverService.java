@@ -34,5 +34,10 @@ public class DriverService
         return "Driver added successfully";
     }
 
+    public Driver getDriver(String mobNo)
+    {
+        return driverRepository.findByMobileNumber(mobNo);
+    }
+
     //delete a driver by phone number
 }

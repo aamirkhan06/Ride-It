@@ -1,6 +1,7 @@
 package com.example.RideIt.controller;
 
 import com.example.RideIt.dto.request.TripBookingRequest;
+import com.example.RideIt.dto.response.Response;
 import com.example.RideIt.dto.response.TripBookingResponse;
 import com.example.RideIt.service.TripBookingService;
 import lombok.RequiredArgsConstructor;
@@ -18,9 +19,9 @@ public class TripBookingController
 
     @PostMapping("/book")
     public ResponseEntity<TripBookingResponse> bookCab(@RequestParam(value = "apply-coupon",required = false,defaultValue = "false") boolean applyCoupon,
-                                                       @RequestBody TripBookingRequest tripBookingRequest)
+                                                 @RequestBody TripBookingRequest tripBookingRequest)
     {
         TripBookingResponse response= tripBookingService.bookCab(applyCoupon,tripBookingRequest);
-        return  new ResponseEntity<>(response, HttpStatus.CREATED);
+        return new ResponseEntity<>(response,HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

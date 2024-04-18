@@ -13,6 +13,9 @@ import com.example.RideIt.repository.DriverRepository;
 import com.example.RideIt.repository.TripBookingRepository;
 import com.example.RideIt.transformer.BookingTransformer;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -23,6 +26,9 @@ public class TripBookingService {
     private final CabRepository cabRepository;
     private final DriverRepository driverRepository;
     private  final TripBookingRepository tripBookingRepository;
+
+    @Autowired
+    JavaMailSender javaMailSender; //to send the email
     public TripBookingResponse bookCab(boolean applyCoupon, TripBookingRequest tripBookingRequest)
     {
         //validate emailId of the customer
@@ -56,6 +62,20 @@ public class TripBookingService {
         customerRepository.save(customer); //save customer and savedBooking
         driverRepository.save(cab.getDriver()); //save driver, cab and savedBookings
 
+        //sending the email
+        sendEmail(savedTripBooking);
+
         return BookingTransformer.bookingToBookingResponse(tripBooking);
+    }
+
+    private void sendEmail(TripBooking savedTripBooking)
+    {
+        String text="Congrats! "+savedTripBooking.getCustomer().getName()
+                +". Your ride is booked wth "+savedTripBooking.getDriver().getName();
+        SimpleMailMessage simpleMailMessage= new SimpleMailMessage();
+        simpleMailMessage.setFrom("myshoppingappend@gmail.com");
+        simpleMailMessage.setTo(savedTripBooking.getCustomer().getEmail());
+        simpleMailMessage.setText(text);
+        javaMailSender.send(simpleMailMessage);
     }
 }

@@ -1,6 +1,7 @@
 package com.example.RideIt.model;
 
 import com.example.RideIt.Enum.TripStatus;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -36,9 +37,11 @@ public class TripBooking
 
     @ManyToOne
     @JoinColumn
+    @JsonIgnore
     Customer customer;
 
     @ManyToOne
     @JoinColumn
+    @JsonIgnore
     Driver driver;
 }

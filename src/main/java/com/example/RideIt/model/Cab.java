@@ -1,6 +1,7 @@
 package com.example.RideIt.model;
 
 import com.example.RideIt.Enum.CarType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.*;
@@ -35,5 +36,6 @@ public class Cab
 
     @OneToOne
     @JoinColumn //create a foreign key of driver
+    @JsonIgnore
     Driver driver;
 }
