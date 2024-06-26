@@ -1,9 +1,11 @@
 package com.example.RideIt.service;
 
+import com.example.RideIt.Enum.TripStatus;
 import com.example.RideIt.dto.request.TripBookingRequest;
 import com.example.RideIt.dto.response.TripBookingResponse;
 import com.example.RideIt.exception.CabNotAvailable;
 import com.example.RideIt.exception.CustomerNotFoundException;
+import com.example.RideIt.exception.TripBookingIdNotFoundException;
 import com.example.RideIt.model.Cab;
 import com.example.RideIt.model.Customer;
 import com.example.RideIt.model.TripBooking;
@@ -48,6 +50,7 @@ public class TripBookingService {
 
         //now both customer and cab has been validated, now the booking will be done
         TripBooking tripBooking = BookingTransformer.bookingRequestToBooking(tripBookingRequest);
+
         tripBooking.setTotalFare(cab.getFarePerKm() * tripBookingRequest.getTripDistanceInKm());
         tripBooking.setCustomer(customer);
         tripBooking.setDriver(cab.getDriver());
@@ -77,5 +80,37 @@ public class TripBookingService {
         simpleMailMessage.setTo(savedTripBooking.getCustomer().getEmail());
         simpleMailMessage.setText(text);
         javaMailSender.send(simpleMailMessage);
+    }
+
+    public TripBookingResponse cancleTrip(String tripId)
+    {
+        TripBooking tripBooking=tripBookingRepository.findByBookingId(tripId);
+        if(tripBooking==null)
+        {
+            throw new TripBookingIdNotFoundException("Trip Not found");
+        }
+        tripBooking.setTripStatus(TripStatus.CANCELLED);
+        tripBooking.getDriver().getCab().setAvailable(true);
+
+        TripBooking savedTripBooking=tripBookingRepository.save(tripBooking); //will have a primary key
+
+        TripBookingResponse tripBookingResponse=BookingTransformer.bookingToBookingResponse(savedTripBooking);
+        return tripBookingResponse;
+    }
+
+    public TripBookingResponse completeTrip(String tripId)
+    {
+        TripBooking tripBooking=tripBookingRepository.findByBookingId(tripId);
+        if(tripBooking==null)
+        {
+            throw new TripBookingIdNotFoundException("Trip Not found");
+        }
+        tripBooking.setTripStatus(TripStatus.COMPLETED);
+        tripBooking.getDriver().getCab().setAvailable(true);
+
+        TripBooking savedTripBooking=tripBookingRepository.save(tripBooking); //will have a primary key
+
+        TripBookingResponse tripBookingResponse=BookingTransformer.bookingToBookingResponse(savedTripBooking);
+        return tripBookingResponse;
     }
 }

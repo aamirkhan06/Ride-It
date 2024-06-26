@@ -15,4 +15,5 @@ public class CabResponse
     String cabNumber;
     String carModel;
     double farePerKm;
+    boolean available;
 }

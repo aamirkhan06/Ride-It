@@ -25,6 +25,7 @@ public class CabTransformer
                 .cabNumber(cab.getCabNumber())
                 .carModel(cab.getCarModel())
                 .farePerKm(cab.getFarePerKm())
+                .available(cab.isAvailable())
                 .build();
     }
 }
